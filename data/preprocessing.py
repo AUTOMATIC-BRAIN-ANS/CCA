@@ -1,3 +1,5 @@
+import numpy as np
+from scipy.interpolate import interp1d
 import pandas as pd
 import os
 import xlrd
@@ -82,4 +84,17 @@ def print_nb_cols(dataset):
 def get_n_days(dataframe, n=1):
     return dataframe.iloc[:n*24*60]
 
+
+def fill_nans(signal, kind='linear'):
+    idx = np.arange(signal.shape[0])
+    not_nan, = np.where(np.isfinite(signal))
+    f = interp1d(not_nan, signal[not_nan], bounds_error=False, copy=False, fill_value="extrapolate", kind=kind)
+    return f(idx)
+
+
+def fill_df_nans(dataframe, kind='linear'):
+    for col in dataframe.columns:
+        if dataframe[col].isnull().any():
+            dataframe[col] = fill_nans(dataframe[col].values, kind=kind)
+    return dataframe
 

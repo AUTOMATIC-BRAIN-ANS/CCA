@@ -3,26 +3,35 @@ import os
 import pandas as pd
 
 load = "C:\\USK_Wieloparametrowe_onlyTBI_and_SAH_with_ICP_SONATA_HEATMAPS\\ANALIZA_SZEREGOW_CZASOWYCH\\CSV_with_results"
-save = "D:\\MN\\preprocessed"
-
-dataset = load_files(load)
-print_nb_cols(dataset)
+save = "D:\\MN\\PROC"
+# ds = load_files(load)
+# print_nb_cols(ds)
 
 
 nb_days = 1
 for file in os.listdir(load):
     if file.endswith(".csv"):
         name = file[:-4]
-        dataframe = pd.read_csv(os.path.join(load, file), error_bad_lines=False, sep=';', encoding='latin1',
+        dataframe = pd.read_csv(os.path.join(load, file), sep=';', encoding='latin1',
                                 decimal=',')
-        dataframe = drop_missing(dataframe)
-        dataframe = fill_with_mean(dataframe)
-        dataframe["Time"] = dataframe["DateTime"].apply(icmp_dateformat_to_datetime)
 
-        if len(dataframe) > nb_days*24*60:
-            dataframe = dataframe[:nb_days*24*60]
-        elif len(dataframe) < nb_days*24*60:
+        if len(dataframe) > nb_days * 24 * 60:
+            dataframe = dataframe[:nb_days * 24 * 60]
+        elif len(dataframe) < nb_days * 24 * 60:
             print(f"***Dataframe {name} is too short***")
             continue
 
-        # dataframe.to_pickle(save+f"\\{name}.pkl")
+        dataframe = drop_missing(dataframe)
+
+        required_cols = ["Prx", "ICP", "HR", "ABP_HRVpsd_LF"]
+        missing_cols = [col for col in required_cols if col not in dataframe.columns]
+
+        if missing_cols:
+            print(f"~~~Dataframe {name} misses columns: {missing_cols}~~~")
+            continue
+        else:
+            dataframe = dataframe[required_cols]
+            dataframe.rename(columns={"Prx": "PRX", "ABP_HRVpsd_LF": "LF"}, inplace=True)
+            dataframe = fill_df_nans(dataframe)
+            dataframe.to_pickle(save+f"\\{name}.pkl")
+
