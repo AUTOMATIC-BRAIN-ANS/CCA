@@ -1,12 +1,12 @@
 from data.preprocessing import *
-from tools import *
+from data.tools import *
 
-data_path = "D:\\MN\\PROC"
-target_path = "D:\\MN\\RESULTS\\ALL"
-likely_path = "D:\\MN\\RESULTS\\LIKELY"
-unlikely_path = "D:\\MN\\RESULTS\\UNLIKELY"
+data_path = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\PROC"
+target_path = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS\\ALL"
+likely_path = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS\\LIKELY"
+unlikely_path = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS\\UNLIKELY"
 
-meta_path = "D:\\MN\\METADANE_FULL_notime_15052024.xls"
+meta_path = "C:\ANALIZA_SZEREGOW_CZASOWYCH\METADANE_FULL_notime_15052024.xls"
 meta = pd.read_excel(meta_path, header=1)
 
 ds = load_pickled(data_path)

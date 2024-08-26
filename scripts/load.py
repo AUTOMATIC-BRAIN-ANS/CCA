@@ -2,8 +2,8 @@ from data.preprocessing import *
 import os
 import pandas as pd
 
-load = "C:\\USK_Wieloparametrowe_onlyTBI_and_SAH_with_ICP_SONATA_HEATMAPS\\ANALIZA_SZEREGOW_CZASOWYCH\\CSV_with_results"
-save = "D:\\MN\\PROC"
+load = "C:\\ANALIZA_SZEREGOW_CZASOWYCH\\CSV_with_results"
+save = "C:\\Users\\48503\Desktop\PSH_patients_for_tests\PROC"
 # ds = load_files(load)
 # print_nb_cols(ds)
 

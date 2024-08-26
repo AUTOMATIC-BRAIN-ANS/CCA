@@ -14,17 +14,26 @@ def fill_matrix(pac_dict, signal_name, window_size, step_size):
         for start in range(0, len(signal) - window_size + 1, step_size):
             x = np.arange(window_size)
             y = signal.iloc[start:start + window_size].values
-            a, b, c = get_polyfit(x, y)
+            a, b = get_polyfit(x, y)
+            # a, b, c = get_polyfit(x, y)
             freq, amp, phase = get_fft(y)
-            variables.append([pac_nr, a, b, c, freq, amp, phase])
-    df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'c', 'freq', 'amp', 'phase'])
+            # variables.append([pac_nr, a, b, c, freq, amp, phase])
+            variables.append([pac_nr, a, b, freq, amp, phase])
+    # df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'c', 'freq', 'amp', 'phase'])
+    df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'freq', 'amp', 'phase'])
     df.set_index('name', inplace=True)
     return df
 
 
 def get_polyfit(x, y, deg=2):
-    p = Polynomial.fit(x, y, deg)
-    return p.convert().coef
+    # p = Polynomial.fit(x, y, deg)
+    # coefficients = p.convert().coef
+
+    coefficients = np.polyfit(x, y, deg)[:-1]
+    # coefficients = np.polyfit(x, y, deg)
+    # if len(coefficients) < 3:
+    #     coefficients = np.pad(coefficients, (0, 3-len(coefficients)), 'constant')
+    return coefficients
 
 
 def get_fft(signal, fs=1.0):
@@ -34,7 +43,7 @@ def get_fft(signal, fs=1.0):
     amp = np.abs(fft)
     phase = np.angle(fft)
 
-    main_index = np.argmax(amp[:n//2]) + 1
+    main_index = np.argmax(amp[1:n//2])
     main_freq = freq[main_index]
     main_amp = amp[main_index]
     main_phase = phase[main_index]
@@ -82,9 +91,16 @@ def calculate_stats(components1, components2, signal1, signal2, save_path):
     pd.DataFrame(stats).to_csv(save_path + f"\\{signal1}_{signal2}\\stats.csv")
 
 
+def normalize(dataframe):
+    return (dataframe - dataframe.min())/(dataframe.max() - dataframe.min())
+
+
 def perform_cca(dataset, signal1, signal2, save_path, window_size=360, step_size=120, dim=6):
     x = fill_matrix(dataset, signal1, window_size, step_size)
     y = fill_matrix(dataset, signal2, window_size, step_size)
+
+    x = normalize(x)
+    y = normalize(y)
 
     x.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_matrix.csv")
     y.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_matrix.csv")
