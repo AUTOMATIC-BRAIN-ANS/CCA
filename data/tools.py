@@ -7,6 +7,7 @@ import seaborn as sns
 from scipy.stats import linregress
 from scipy.signal import welch
 from sklearn.cross_decomposition import CCA
+from signal_analysis import spectral_entropy_welch_sv
 
 
 def fill_matrix(pac_dict, signal_name, window_size, step_size):
@@ -27,9 +28,10 @@ def fill_matrix(pac_dict, signal_name, window_size, step_size):
 
 
 def compute_spectral_entropy(signal, fs=1.0, nperseg=None):
-    freqs, psd = welch(signal, fs=fs, nperseg=nperseg)
-    psd_norm = psd / np.sum(psd)
-    spectral_entropy = -np.sum(psd_norm * np.log2(psd_norm + np.finfo(float).eps))
+    # freqs, psd = welch(signal, fs=fs, nperseg=nperseg)
+    # psd_norm = psd / np.sum(psd)
+    # spectral_entropy = -np.sum(psd_norm * np.log2(psd_norm + np.finfo(float).eps))
+    spectral_entropy = spectral_entropy_welch_sv(signal, fs=fs)
     return spectral_entropy
 
 
