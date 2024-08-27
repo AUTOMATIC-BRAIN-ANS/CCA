@@ -11,7 +11,8 @@ class MyCCA():
 
     def center_cols(self, M, N):
         m = np.mean(M, axis=0)
-        M = M - np.tile(m, (N, 1))
+        std = np.std(M, axis=0)
+        M = (M - np.tile(m, (N, 1))) / np.tile(std, (N, 1))
         return M
 
     def fit(self, X, Y, r1=0, r2=0, tol=1e-12):

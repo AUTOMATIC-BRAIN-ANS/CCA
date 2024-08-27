@@ -5,7 +5,8 @@ from models.CCA import MyCCA
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import linregress
-
+from scipy.signal import welch
+from sklearn.cross_decomposition import CCA
 
 def fill_matrix(pac_dict, signal_name, window_size, step_size):
     variables = []
@@ -14,36 +15,41 @@ def fill_matrix(pac_dict, signal_name, window_size, step_size):
         for start in range(0, len(signal) - window_size + 1, step_size):
             x = np.arange(window_size)
             y = signal.iloc[start:start + window_size].values
-            a, b = get_polyfit(x, y)
-            # a, b, c = get_polyfit(x, y)
+            a, b, c = get_polyfit(x, y, True)
             freq, amp, phase = get_fft(y)
-            # variables.append([pac_nr, a, b, c, freq, amp, phase])
-            variables.append([pac_nr, a, b, freq, amp, phase])
-    # df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'c', 'freq', 'amp', 'phase'])
-    df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'freq', 'amp', 'phase'])
+            mean = np.mean(y)
+            entropy = compute_spectral_entropy(y)
+            variables.append([pac_nr, a, b, c, freq, amp, phase,  entropy])
+    df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'c', 'freq', 'amp', 'phase',  'entropy'])
     df.set_index('name', inplace=True)
     return df
 
 
-def get_polyfit(x, y, deg=2):
-    # p = Polynomial.fit(x, y, deg)
-    # coefficients = p.convert().coef
+def compute_spectral_entropy(signal, fs=1.0, nperseg=None):
+    freqs, psd = welch(signal, fs=fs, nperseg=nperseg)
+    psd_norm = psd / np.sum(psd)
+    spectral_entropy = -np.sum(psd_norm * np.log2(psd_norm + np.finfo(float).eps))
+    return spectral_entropy
 
-    coefficients = np.polyfit(x, y, deg)[:-1]
-    # coefficients = np.polyfit(x, y, deg)
-    # if len(coefficients) < 3:
-    #     coefficients = np.pad(coefficients, (0, 3-len(coefficients)), 'constant')
+
+def get_polyfit(x, y, free_term, deg=2):
+    if not free_term:
+        coefficients = np.polyfit(x, y, deg)[:-1]
+    else:
+        coefficients = np.polyfit(x, y, deg)
+        if len(coefficients) < 3:
+            coefficients = np.pad(coefficients, (0, 3-len(coefficients)), 'constant')
     return coefficients
 
 
 def get_fft(signal, fs=1.0):
     n = len(signal)
     fft = np.fft.fft(signal)
-    freq = np.fft.fftfreq(n, d=1/fs)
+    freq = np.fft.fftfreq(n, d=1 / fs)
     amp = np.abs(fft)
     phase = np.angle(fft)
 
-    main_index = np.argmax(amp[1:n//2])
+    main_index = np.argmax(amp[1:n // 2])
     main_freq = freq[main_index]
     main_amp = amp[main_index]
     main_phase = phase[main_index]
@@ -60,13 +66,15 @@ def plot_corr_matrix(corr, signal1, signal2, save_path):
     plt.close()
 
 
-def plot_scatter_components(components1, components2, signal1, signal2, save_path):
-    for i in range(5):
+def plot_scatter_components(components1, components2, signal1, signal2, save_path, dim):
+    for i in range(dim):
         plt.figure()
         plt.scatter(components1[:, i], components2[:, i])
         plt.xlabel(f'{signal1} (column {i + 1})')
         plt.ylabel(f'{signal2} (column {i + 1})')
         plt.title(f'')
+        # plt.xlim(-0.2, 0.0)
+        # plt.ylim(-1.0, 1.0)
         if save_path:
             plt.savefig(f'{save_path}/scatter_component_{i + 1}.png')
         else:
@@ -74,9 +82,9 @@ def plot_scatter_components(components1, components2, signal1, signal2, save_pat
         plt.close()
 
 
-def calculate_stats(components1, components2, signal1, signal2, save_path):
+def calculate_stats(components1, components2, signal1, signal2, save_path, dim):
     stats = []
-    for idx in range(5):
+    for idx in range(dim):
         col1 = components1[:, idx]
         col2 = components2[:, idx]
 
@@ -92,12 +100,15 @@ def calculate_stats(components1, components2, signal1, signal2, save_path):
 
 
 def normalize(dataframe):
-    return (dataframe - dataframe.min())/(dataframe.max() - dataframe.min())
+    return (dataframe - dataframe.min()) / (dataframe.max() - dataframe.min())
 
 
-def perform_cca(dataset, signal1, signal2, save_path, window_size=360, step_size=120, dim=6):
+def perform_cca(dataset, signal1, signal2, save_path, dim, window_size=360, step_size=60):
     x = fill_matrix(dataset, signal1, window_size, step_size)
     y = fill_matrix(dataset, signal2, window_size, step_size)
+
+    x.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_matrix_unnormalized.csv")
+    y.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_matrix_unnormalized.csv")
 
     x = normalize(x)
     y = normalize(y)
@@ -113,6 +124,39 @@ def perform_cca(dataset, signal1, signal2, save_path, window_size=360, step_size
     pd.DataFrame(cca.weights_x).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_weights.csv")
     pd.DataFrame(cca.weights_y).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_weights.csv")
 
+    pd.DataFrame(components1).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_components.csv")
+    pd.DataFrame(components2).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_components.csv")
+
     plot_corr_matrix(cca.corr_values, signal1, signal2, save_path)
-    plot_scatter_components(components1, components2, signal1, signal2, save_path + f"\\{signal1}_{signal2}")
-    calculate_stats(components1, components2, signal1, signal2, save_path)
+    plot_scatter_components(components1, components2, signal1, signal2, save_path + f"\\{signal1}_{signal2}", dim)
+    calculate_stats(components1, components2, signal1, signal2, save_path, dim)
+
+
+
+
+
+def perform_cca_sklearn(dataset, signal1, signal2, save_path, dim, window_size=240, step_size=60):
+    x = fill_matrix(dataset, signal1, window_size, step_size)
+    y = fill_matrix(dataset, signal2, window_size, step_size)
+
+    x.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_matrix_unnormalized.csv")
+    y.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_matrix_unnormalized.csv")
+
+    x.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_matrix.csv")
+    y.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_matrix.csv")
+
+    cca = CCA(n_components=dim)
+    x_matrix, y_matrix = x.to_numpy(), y.to_numpy()
+    cca.fit(x_matrix, y_matrix)
+    components1, components2 = cca.transform(x_matrix, y_matrix)
+
+    pd.DataFrame(cca.x_weights_).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_weights.csv")
+    pd.DataFrame(cca.y_weights_).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_weights.csv")
+
+    pd.DataFrame(components1).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_components.csv")
+    pd.DataFrame(components2).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_components.csv")
+
+    corr_values = np.corrcoef(components1.T, components2.T)[:dim, dim:]
+    plot_corr_matrix(corr_values, signal1, signal2, save_path)
+    plot_scatter_components(components1, components2, signal1, signal2, save_path + f"\\{signal1}_{signal2}", dim)
+    calculate_stats(components1, components2, signal1, signal2, save_path, dim)

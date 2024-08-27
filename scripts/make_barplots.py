@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def plot_stacked_barplot(csv_file, save_path):
     df = pd.read_csv(csv_file, index_col=1)
     df = df.drop(df.columns[0], axis=1)
-    df = df.div(df.sum(axis=0), axis=1)
+    df = df.abs().div(df.abs().sum(axis=0), axis=1)
     plt.figure(figsize=(10, 6))
     bottom = None
     for idx, row in df.iterrows():
