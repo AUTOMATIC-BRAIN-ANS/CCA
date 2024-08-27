@@ -5,7 +5,6 @@ from models.CCA import MyCCA
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import linregress
-from scipy.signal import welch
 from sklearn.cross_decomposition import CCA
 from signal_analysis import spectral_entropy_welch_sv
 
