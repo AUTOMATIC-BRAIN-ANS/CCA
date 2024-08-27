@@ -43,7 +43,6 @@ files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS\\UNLIKELY\LF_
 
 
 label_list = ['a', 'b', 'c', 'freq', 'amp', 'phase',  'entropy']
-# label_list = ['a', 'b', "c",'freq', 'amp', 'phase']
 
 for idx in range(len(files)):
     plot_boxplots(files[idx], label_list, files[idx][:-4] + ".png")

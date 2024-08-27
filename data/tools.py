@@ -8,6 +8,7 @@ from scipy.stats import linregress
 from scipy.signal import welch
 from sklearn.cross_decomposition import CCA
 
+
 def fill_matrix(pac_dict, signal_name, window_size, step_size):
     variables = []
     for pac_nr, pac_df in pac_dict.items():
@@ -19,8 +20,8 @@ def fill_matrix(pac_dict, signal_name, window_size, step_size):
             freq, amp, phase = get_fft(y)
             mean = np.mean(y)
             entropy = compute_spectral_entropy(y)
-            variables.append([pac_nr, a, b, c, freq, amp, phase,  entropy])
-    df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'c', 'freq', 'amp', 'phase',  'entropy'])
+            variables.append([pac_nr, a, b, c, freq, amp, phase, entropy])
+    df = pd.DataFrame(variables, columns=['name', 'a', 'b', 'c', 'freq', 'amp', 'phase', 'entropy'])
     df.set_index('name', inplace=True)
     return df
 
@@ -38,7 +39,7 @@ def get_polyfit(x, y, free_term, deg=2):
     else:
         coefficients = np.polyfit(x, y, deg)
         if len(coefficients) < 3:
-            coefficients = np.pad(coefficients, (0, 3-len(coefficients)), 'constant')
+            coefficients = np.pad(coefficients, (0, 3 - len(coefficients)), 'constant')
     return coefficients
 
 
@@ -73,8 +74,6 @@ def plot_scatter_components(components1, components2, signal1, signal2, save_pat
         plt.xlabel(f'{signal1} (column {i + 1})')
         plt.ylabel(f'{signal2} (column {i + 1})')
         plt.title(f'')
-        # plt.xlim(-0.2, 0.0)
-        # plt.ylim(-1.0, 1.0)
         if save_path:
             plt.savefig(f'{save_path}/scatter_component_{i + 1}.png')
         else:
@@ -103,7 +102,7 @@ def normalize(dataframe):
     return (dataframe - dataframe.min()) / (dataframe.max() - dataframe.min())
 
 
-def perform_cca(dataset, signal1, signal2, save_path, dim, window_size=360, step_size=60):
+def perform_cca(dataset, signal1, signal2, save_path, dim, window_size=480, step_size=60):
     x = fill_matrix(dataset, signal1, window_size, step_size)
     y = fill_matrix(dataset, signal2, window_size, step_size)
 
@@ -132,10 +131,7 @@ def perform_cca(dataset, signal1, signal2, save_path, dim, window_size=360, step
     calculate_stats(components1, components2, signal1, signal2, save_path, dim)
 
 
-
-
-
-def perform_cca_sklearn(dataset, signal1, signal2, save_path, dim, window_size=240, step_size=60):
+def perform_cca_sklearn(dataset, signal1, signal2, save_path, dim, window_size=480, step_size=60):
     x = fill_matrix(dataset, signal1, window_size, step_size)
     y = fill_matrix(dataset, signal2, window_size, step_size)
 
@@ -156,6 +152,7 @@ def perform_cca_sklearn(dataset, signal1, signal2, save_path, dim, window_size=2
     pd.DataFrame(components1).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_components.csv")
     pd.DataFrame(components2).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_components.csv")
 
+    # do that for your own implementation but get rid of outliers first
     corr_values = np.corrcoef(components1.T, components2.T)[:dim, dim:]
     plot_corr_matrix(corr_values, signal1, signal2, save_path)
     plot_scatter_components(components1, components2, signal1, signal2, save_path + f"\\{signal1}_{signal2}", dim)
