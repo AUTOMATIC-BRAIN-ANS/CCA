@@ -46,7 +46,7 @@ def print_missing_table(dataset: dict):
         print(nan_df)
 
 
-def missing_over_threshold(dataset: dict, threshold: float = 80.0):
+def missing_over_threshold(dataset: dict, threshold: float = 10.0):
     cols = []
     for name, df in dataset.items():
         percent = get_missing_col(df)

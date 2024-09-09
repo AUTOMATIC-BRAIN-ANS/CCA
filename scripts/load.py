@@ -4,7 +4,8 @@ import pandas as pd
 
 load = "C:\\ANALIZA_SZEREGOW_CZASOWYCH\\CSV_with_results"
 save = "C:\\Users\\48503\Desktop\PSH_patients_for_tests\PROC"
-# ds = load_files(load)
+ds = load_files(load)
+# missing_over_threshold(ds)
 # print_nb_cols(ds)
 
 
@@ -15,7 +16,7 @@ for file in os.listdir(load):
         dataframe = pd.read_csv(os.path.join(load, file), sep=';', encoding='latin1',
                                 decimal=',')
 
-        if len(dataframe) > nb_days * 24 * 60:
+        if len(dataframe) >= nb_days * 24 * 60:
             dataframe = dataframe[:nb_days * 24 * 60]
         elif len(dataframe) < nb_days * 24 * 60:
             print(f"***Dataframe {name} is too short***")
@@ -34,4 +35,5 @@ for file in os.listdir(load):
             dataframe.rename(columns={"Prx": "PRX", "ABP_HRVpsd_LF": "LF"}, inplace=True)
             dataframe = fill_df_nans(dataframe)
             dataframe.to_pickle(save+f"\\{name}.pkl")
+            print("!!!!!Saved", name)
 
