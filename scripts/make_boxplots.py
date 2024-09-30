@@ -24,7 +24,17 @@ unlikely_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP
                   "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_PRX\HR_weights.csv",
                   "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_PRX\PRX_weights.csv",
                   "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_ICP\HR_weights.csv"]
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_ICP\HR_weights.csv",
+
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_PRX\LF_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\\RESULTS_GR\\UNLIKELY\LF_PRX\PRX_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_ICP\ICP_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_ICP\LF_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_PRX\HR_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_PRX\PRX_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_ICP\ICP_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_ICP\HR_weights.csv"
+                  ]
 
 likely_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_PRX\LF_weights.csv",
                 "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_PRX\PRX_weights.csv",
@@ -35,6 +45,23 @@ likely_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\
                 "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_ICP\ICP_weights.csv",
                 "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_ICP\HR_weights.csv"]
 
+possibly_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\LF_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\PRX_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\ICP_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\LF_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\HR_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\PRX_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\ICP_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\HR_weights.csv"]
+
+probably_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\LF_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\PRX_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\ICP_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\LF_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\HR_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\PRX_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\ICP_weights.csv",
+                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\HR_weights.csv"]
 
 label_list = ['a', 'b', 'c', 'frequency', 'amplitude', 'phase', 'entropy']
 
@@ -43,4 +70,10 @@ for file in unlikely_files:
 
 for file in likely_files:
     plot_boxplots(file, label_list, file[:-4], "likely")
+
+for file in probably_files:
+    plot_boxplots(file, label_list, file[:-4], "probably")
+
+for file in possibly_files:
+    plot_boxplots(file, label_list, file[:-4], "possibly")
 
