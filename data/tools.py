@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from models.CCA import MyCCA
@@ -8,12 +9,12 @@ import antropy as ent
 from scipy.signal import medfilt
 
 
-def fill_matrix(pac_dict, signal_name, window_size, step_size, filter_type, if_entropy):
+def fill_matrix(pac_dict, signal_name, offset, window_size, step_size, filter_type, if_entropy):
     filter_dict = {'PRX': 1, 'ICP': 200, 'LF': 600, 'HR': 200}
     variables = []
     for pac_nr, pac_df in pac_dict.items():
         signal = pac_df[signal_name]
-        for start in range(0, len(signal) - window_size + 1, step_size):
+        for start in range(offset, len(signal) - window_size + 1, step_size):
             x = np.arange(window_size)
             y = signal.iloc[start:start + window_size].values
 
@@ -75,7 +76,7 @@ def plot_corr_matrix(corr, signal1, signal2, save_path):
     plt.figure(figsize=(10, 8))
     sns.heatmap(corr_values_df, annot=True, cmap='coolwarm')
     plt.title(f'')
-    plt.savefig(save_path + f"\\{signal1}_{signal2}\\corr_values_heatmap.pdf")
+    plt.savefig(save_path + f"\\corr_values_heatmap.pdf")
     plt.close()
 
 
@@ -87,10 +88,8 @@ def plot_scatter_components(components1, components2, signal1, signal2, save_pat
         plt.ylabel(f'{signal2}')
         # plt.title(f'')
         plt.tight_layout()
-        if save_path:
-            plt.savefig(f'{save_path}/scatter_component_{i + 1}_{group_type}_{signal1}_{signal2}.pdf')
-        else:
-            plt.show()
+        plt.savefig(f'{save_path}/scatter_component_{i + 1}_{group_type}_{signal1}_{signal2}.pdf')
+        plt.show()
         plt.close()
 
 
@@ -108,37 +107,41 @@ def calculate_stats(components1, components2, signal1, signal2, save_path, dim):
         stats.append({'component': idx + 1, 'std_dev1': std_dev1, 'std_dev2': std_dev2, 'slope': slope,
                       'intercept': intercept, 'r_value': r_value, 'p_value': p_value, 'std_err': std_err})
 
-    pd.DataFrame(stats).to_csv(save_path + f"\\{signal1}_{signal2}\\stats.csv")
+    pd.DataFrame(stats).to_csv(save_path + f"\\stats.csv")
 
 
 def normalize(dataframe):
     return (dataframe - dataframe.min()) / (dataframe.max() - dataframe.min())
 
 
-def perform_cca(dataset, signal1, signal2, save_path, dim, filter_type, entropy, group_type, window_size=360, step_size=120):
-    x = fill_matrix(dataset, signal1, window_size, step_size, filter_type, entropy)
-    y = fill_matrix(dataset, signal2, window_size, step_size, filter_type, entropy)
+def perform_cca(dataset, signal1, signal2, save_path, dim, filter_type, entropy, group_type, offset=120, window_size=360, step_size=120):
+    x = fill_matrix(dataset, signal1, offset, window_size, step_size, filter_type, entropy)
+    y = fill_matrix(dataset, signal2, offset, window_size, step_size, filter_type, entropy)
 
-    x.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_matrix_unnormalized.csv")
-    y.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_matrix_unnormalized.csv")
+    path = save_path + f"\\{signal1}_{signal2}"
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    x.to_csv(path + f"\\{signal1}_matrix_unnormalized.csv")
+    y.to_csv(path + f"\\{signal2}_matrix_unnormalized.csv")
 
     x = normalize(x)
     y = normalize(y)
 
-    x.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_matrix.csv")
-    y.to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_matrix.csv")
+    x.to_csv(path + f"\\{signal1}_matrix.csv")
+    y.to_csv(path + f"\\{signal2}_matrix.csv")
 
     cca = MyCCA(dim)
     x_matrix, y_matrix = x.to_numpy(), y.to_numpy()
     cca.fit(x_matrix, y_matrix)
     components1, components2 = cca.transform(x_matrix, y_matrix)
 
-    pd.DataFrame(cca.weights_x).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_weights.csv")
-    pd.DataFrame(cca.weights_y).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_weights.csv")
+    pd.DataFrame(cca.weights_x).to_csv(path + f"\\{signal1}_weights.csv")
+    pd.DataFrame(cca.weights_y).to_csv(path + f"\\{signal2}_weights.csv")
 
-    pd.DataFrame(components1).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal1}_components.csv")
-    pd.DataFrame(components2).to_csv(save_path + f"\\{signal1}_{signal2}\\{signal2}_components.csv")
+    pd.DataFrame(components1).to_csv(path + f"\\{signal1}_components.csv")
+    pd.DataFrame(components2).to_csv(path + f"\\{signal2}_components.csv")
 
-    plot_corr_matrix(cca.corr_values, signal1, signal2, save_path)
-    plot_scatter_components(components1, components2, signal1, signal2, save_path + f"\\{signal1}_{signal2}", dim, group_type)
-    calculate_stats(components1, components2, signal1, signal2, save_path, dim)
+    plot_corr_matrix(cca.corr_values, signal1, signal2, path)
+    plot_scatter_components(components1, components2, signal1, signal2, path, dim, group_type)
+    calculate_stats(components1, components2, signal1, signal2, path, dim)
