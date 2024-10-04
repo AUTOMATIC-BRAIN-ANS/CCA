@@ -82,7 +82,7 @@ def print_nb_cols(dataset):
 
 
 def get_n_days(dataframe, n=1):
-    return dataframe.iloc[:n*24*60]
+    return dataframe.iloc[:n * 24 * 60]
 
 
 def fill_nans(signal, kind='linear'):
@@ -97,4 +97,3 @@ def fill_df_nans(dataframe, kind='linear'):
         if dataframe[col].isnull().any():
             dataframe[col] = fill_nans(dataframe[col].values, kind=kind)
     return dataframe
-

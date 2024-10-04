@@ -46,22 +46,22 @@ likely_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\
                 "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_ICP\HR_weights.csv"]
 
 possibly_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\LF_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\PRX_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\ICP_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\LF_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\HR_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\PRX_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\ICP_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\HR_weights.csv"]
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\PRX_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\ICP_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\LF_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\HR_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\PRX_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\ICP_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\HR_weights.csv"]
 
 probably_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\LF_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\PRX_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\ICP_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\LF_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\HR_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\PRX_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\ICP_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\HR_weights.csv"]
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\PRX_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\ICP_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\LF_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\HR_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\PRX_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\ICP_weights.csv",
+                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\HR_weights.csv"]
 
 label_list = ['a', 'b', 'c', 'frequency', 'amplitude', 'phase', 'entropy']
 
@@ -76,4 +76,3 @@ for file in probably_files:
 
 for file in possibly_files:
     plot_boxplots(file, label_list, file[:-4], "possibly")
-

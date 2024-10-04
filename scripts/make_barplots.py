@@ -11,7 +11,8 @@ def plot_stacked_barplot(csv_file, save_path, group_type):
     df = df.drop(df.columns[0], axis=1)
     df = df.abs().div(df.abs().sum(axis=0), axis=1)
     plt.figure(figsize=(10, 6))
-    colors = sns.color_palette("ch:.25", as_cmap=False)
+    # colors = sns.color_palette("ch:.25", as_cmap=False)
+    colors = sns.color_palette("Greens", n_colors=len(df))
 
     bottom = None
     for idx, row in df.iterrows():
@@ -24,8 +25,10 @@ def plot_stacked_barplot(csv_file, save_path, group_type):
 
     plt.xlabel('variables')
     plt.ylabel('fraction')
-    # plt.tight_layout()
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    sns.set(font_scale=1.5)
+    plt.tight_layout()
+    # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.legend()
     folder_name = os.path.basename(os.path.dirname(csv_file))
     plt.savefig(f"{save_path}_{folder_name}_{group_type}.pdf", bbox_inches='tight')
 

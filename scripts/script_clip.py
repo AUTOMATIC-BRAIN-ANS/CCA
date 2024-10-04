@@ -10,7 +10,6 @@ target_path_CLIP = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_C
 likely_path_CLIP = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_CLIP\\LIKELY"
 unlikely_path_CLIP = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_CLIP\\UNLIKELY"
 
-
 meta_path = "C:\ANALIZA_SZEREGOW_CZASOWYCH\METADANE_FULL_notime_15052024.xls"
 meta = pd.read_excel(meta_path, header=1)
 
@@ -35,5 +34,3 @@ for sig1 in ['LF', 'HR']:
         perform_cca(ds, sig1, sig2, target_path_CLIP, DIM, 'clip', entropy, 'all')
         perform_cca(unlikely_ds, sig1, sig2, unlikely_path_CLIP, DIM, 'clip', entropy, 'unlikely')
         perform_cca(likely_ds, sig1, sig2, likely_path_CLIP, DIM, 'clip', entropy, 'likely')
-
-

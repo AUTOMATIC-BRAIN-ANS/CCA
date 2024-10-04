@@ -13,6 +13,10 @@ nb_days = 1
 for file in os.listdir(load):
     if file.endswith(".csv"):
         name = file[:-4]
+
+        if len(name) < 5:
+            pac = name.split("PAC")
+            name = f"PAC0{pac[1]}"
         dataframe = pd.read_csv(os.path.join(load, file), sep=';', encoding='latin1',
                                 decimal=',')
 
@@ -24,7 +28,7 @@ for file in os.listdir(load):
 
         dataframe = drop_missing(dataframe)
 
-        required_cols = ["Prx", "ICP", "HR", "ABP_HRVpsd_LF"]
+        required_cols = ["Prx", "ICP", "HR", "ABP_HRVpsd_LF", "DateTime"]
         missing_cols = [col for col in required_cols if col not in dataframe.columns]
 
         if missing_cols:
@@ -32,8 +36,9 @@ for file in os.listdir(load):
             continue
         else:
             dataframe = dataframe[required_cols]
+            dataframe['Hours'] = dataframe['DateTime'].apply(icmp_dateformat_to_datetime)
+            dataframe['Hours'] = dataframe['Hours'].apply(lambda time: (time - dataframe['Hours'][0]).seconds/3600)
             dataframe.rename(columns={"Prx": "PRX", "ABP_HRVpsd_LF": "LF"}, inplace=True)
             dataframe = fill_df_nans(dataframe)
-            dataframe.to_pickle(save+f"\\{name}.pkl")
+            dataframe.to_pickle(save + f"\\{name}.pkl")
             print("!!!!!Saved", name)
-

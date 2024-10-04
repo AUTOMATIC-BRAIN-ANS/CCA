@@ -25,7 +25,6 @@ def plot_boxplots(csv_files, labels, save_path, group, signal1, signal2, which_s
     plt.close()
 
 
-
 offset_list = [30, 60, 90, 120]
 step_size_list = [90, 120, 150, 180]
 window_size_list = [240, 300, 360, 420]
@@ -46,5 +45,3 @@ for group_type in ['UNLIKELY', 'POSSIBLY', 'PROBABLY']:
                         same_sig2.append(file_sig2)
             plot_boxplots(same_sig1, label_list, "D:\\GridSearch\\Boxplots", group_type, sig1, sig2, 1)
             plot_boxplots(same_sig2, label_list, "D:\\GridSearch\\Boxplots", group_type, sig1, sig2, 2)
-
-

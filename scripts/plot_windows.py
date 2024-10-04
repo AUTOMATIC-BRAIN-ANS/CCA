@@ -30,5 +30,3 @@ def get_polyfit(x, y, free_term, deg=2):
         if len(coefficients) < 3:
             coefficients = np.pad(coefficients, (0, 3 - len(coefficients)), 'constant')
     return coefficients
-
-
