@@ -11,7 +11,7 @@ from scipy.stats import pearsonr, spearmanr, shapiro
 
 
 def fill_matrix(pac_dict, signal_name, offset, window_size, step_size, filter_type, if_entropy):
-    filter_dict = {'PRX': 1, 'ICP': 200, 'LF': 600, 'HR': 200}
+    filter_dict = {'PRX': 1, 'ICP': 200, 'LF': 600, 'HR': 200, 'BRX': 20}
     variables = []
     pac_mean = []
     for pac_nr, pac_df in pac_dict.items():
@@ -94,11 +94,10 @@ def plot_scatter_components(components1, components2, signal1, signal2, save_pat
         p = np.poly1d(z)
         plt.scatter(components1[:, idx], components2[:, idx])
         plt.plot(components1[:, idx], p(components1[:, idx]), color='red')
-        # plt.xlabel(f'{signal1}')
-        # plt.ylabel(f'{signal2}')
+        plt.xlabel(f'{signal1}')
+        plt.ylabel(f'{signal2}')
         plt.rcParams['font.size'] = 16
-        plt.xlabel(f'ANS metric scores')
-        plt.ylabel(f'Neuroparameter scores')
+
         # plt.title(f'')
         plt.tight_layout()
         plt.savefig(f'{save_path}/scatter_component_{idx + 1}_{group_type}_{signal1}_{signal2}.png', dpi=900)
