@@ -93,14 +93,14 @@ def plot_scatter_components(components1, components2, signal1, signal2, save_pat
         z = np.polyfit(components1[:, idx], components2[:, idx], 1)
         p = np.poly1d(z)
         plt.scatter(components1[:, idx], components2[:, idx])
-        plt.plot(components1[:, idx], p(components1[:, idx]), color='red')
+        # plt.plot(components1[:, idx], p(components1[:, idx]), color='red')
         plt.xlabel(f'{signal1}')
         plt.ylabel(f'{signal2}')
-        plt.rcParams['font.size'] = 16
+        plt.rcParams['font.size'] = 20
 
         # plt.title(f'')
         plt.tight_layout()
-        plt.savefig(f'{save_path}/scatter_component_{idx + 1}_{group_type}_{signal1}_{signal2}.png', dpi=900)
+        plt.savefig(f'{save_path}/scatter_component_{idx + 1}_{group_type}_{signal1}_{signal2}.pdf', dpi=900, bbox_inches='tight')
         plt.show()
         plt.close()
 

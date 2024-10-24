@@ -1,0 +1,5 @@
+,signals,train accuracy,test accuracy,test precision,test recall,roc auc score
+0,LF_ICP,1.00,0.89,1.00,0.89,undefined
+1,LF_PRX,1.00,0.89,1.00,0.89,undefined
+2,HR_ICP,1.00,0.89,1.00,0.89,undefined
+3,HR_PRX,1.00,0.89,1.00,0.89,undefined
