@@ -1,15 +1,18 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+from matplotlib import rcParams
 
 
+
+rcParams.update({'font.size': 16})
 def plot_boxplots(csv_file, labels, save_path, group_type):
     df = pd.read_csv(csv_file, index_col=0)
     data = [df.abs().iloc[idx] for idx in range(len(df))]
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(10, 10))
     plt.boxplot(data, labels=labels, showfliers=False)
-    plt.xlabel('variables')
-    plt.ylabel('weights')
+    plt.xlabel('\n Variables')
+    plt.ylabel('Weights')
     plt.tight_layout()
     folder_name = os.path.basename(os.path.dirname(csv_file))
     plt.savefig(f"{save_path}_{folder_name}_{group_type}.pdf")
@@ -17,51 +20,51 @@ def plot_boxplots(csv_file, labels, save_path, group_type):
     plt.close()
 
 
-unlikely_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_PRX\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_ICP\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_PRX\HR_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_ICP\HR_weights.csv",
+unlikely_files = ["D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_PRX\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\LF_ICP\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_PRX\HR_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\UNLIKELY\HR_ICP\HR_weights.csv",
 
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_PRX\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\\RESULTS_GR\\UNLIKELY\LF_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_ICP\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_PRX\HR_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_ICP\HR_weights.csv"
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_PRX\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\\RESULTS_GR\\UNLIKELY\LF_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\LF_ICP\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_PRX\HR_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\UNLIKELY\HR_ICP\HR_weights.csv"
                   ]
 
-likely_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_PRX\LF_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_PRX\PRX_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_ICP\ICP_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_ICP\LF_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_PRX\HR_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_PRX\PRX_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_ICP\ICP_weights.csv",
-                "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_ICP\HR_weights.csv"]
+likely_files = ["D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_PRX\LF_weights.csv",
+                "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_PRX\PRX_weights.csv",
+                "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_ICP\ICP_weights.csv",
+                "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\LF_ICP\LF_weights.csv",
+                "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_PRX\HR_weights.csv",
+                "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_PRX\PRX_weights.csv",
+                "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_ICP\ICP_weights.csv",
+                "D:\pulpit\\PSH_patients_for_tests\RESULTS_CLIP\\LIKELY\HR_ICP\HR_weights.csv"]
 
-possibly_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\HR_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\HR_weights.csv"]
+possibly_files = ["D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\LF_ICP\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\HR_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\POSSIBLY\HR_ICP\HR_weights.csv"]
 
-probably_files = ["C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\LF_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\HR_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\PRX_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\ICP_weights.csv",
-                  "C:\\Users\\48503\Desktop\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\HR_weights.csv"]
+probably_files = ["D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\LF_ICP\LF_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\HR_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_PRX\PRX_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\ICP_weights.csv",
+                  "D:\pulpit\\PSH_patients_for_tests\RESULTS_GR\\PROBABLY\HR_ICP\HR_weights.csv"]
 
 label_list = ['a', 'b', 'c', 'frequency', 'amplitude', 'phase', 'entropy']
 

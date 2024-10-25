@@ -1,14 +1,14 @@
 from data.preprocessing import *
 from data.tools import *
 
-data_path = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\PROC"
-target_path_MEDIAN = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_MEDIAN\\ALL"
-likely_path_MEDIAN = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_MEDIAN\\LIKELY"
-unlikely_path_MEDIAN = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_MEDIAN\\UNLIKELY"
+data_path = "D:\pulpit\\PSH_patients_for_tests\\PROC"
+target_path_MEDIAN = "D:\pulpit\\PSH_patients_for_tests\\RESULTS_MEDIAN\\ALL"
+likely_path_MEDIAN = "D:\pulpit\\PSH_patients_for_tests\\RESULTS_MEDIAN\\LIKELY"
+unlikely_path_MEDIAN = "D:\pulpit\\PSH_patients_for_tests\\RESULTS_MEDIAN\\UNLIKELY"
 
-target_path_CLIP = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_CLIP\\ALL"
-likely_path_CLIP = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_CLIP\\LIKELY"
-unlikely_path_CLIP = "C:\\Users\\48503\\Desktop\\PSH_patients_for_tests\\RESULTS_CLIP\\UNLIKELY"
+target_path_CLIP = "D:\pulpit\\PSH_patients_for_tests\\RESULTS_CLIP\\ALL"
+likely_path_CLIP = "D:\pulpit\\PSH_patients_for_tests\\RESULTS_CLIP\\LIKELY"
+unlikely_path_CLIP = "D:\pulpit\\PSH_patients_for_tests\\RESULTS_CLIP\\UNLIKELY"
 
 meta_path = "C:\ANALIZA_SZEREGOW_CZASOWYCH\METADANE_FULL_notime_15052024.xls"
 meta = pd.read_excel(meta_path, header=1)
@@ -17,7 +17,7 @@ ds = load_pickled(data_path)
 unlikely_ids = set(meta[meta['psh_prob'] == 0]['ID'].astype(str).tolist())
 print(f"all unlikely ({len(unlikely_ids)}): {unlikely_ids}")
 unlikely_ds = {key: value for key, value in ds.items() if key in unlikely_ids}
-print(f"unlikely ({len(unlikely_ds.keys())})")
+print(f"unlikely ({len(unlikely_ds.keys())}): {unlikely_ds.keys()}")
 
 likely_ids = set(meta[meta['psh_prob'] == 1]['ID'].astype(str).tolist())
 print(f"all likely ({len(likely_ids)}): {likely_ids}")

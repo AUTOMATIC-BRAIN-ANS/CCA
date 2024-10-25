@@ -10,20 +10,20 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_a
 def prepare_data(signal1, signal2, label):
     nb_rows = 9  # every person has 9 rows
     nb_patients = len(signal1) // nb_rows
-    customer_data = []
+    patient_data = []
     labels = []
 
     for i in range(nb_patients):
-        customer_signal1 = signal1.iloc[i * nb_rows:(i + 1) * nb_rows].values
-        customer_signal2 = signal2.iloc[i * nb_rows:(i + 1) * nb_rows].values
+        patient_signal1 = signal1.iloc[i * nb_rows:(i + 1) * nb_rows].values
+        patient_signal2 = signal2.iloc[i * nb_rows:(i + 1) * nb_rows].values
 
-        customer_flat1 = customer_signal1.flatten()
-        customer_flat2 = customer_signal2.flatten()
-        customer_combined = np.concatenate([customer_flat1, customer_flat2])
+        patient_flat1 = patient_signal1.flatten()
+        patient_flat2 = patient_signal2.flatten()
+        both_signals = np.concatenate([patient_flat1, patient_flat2])
 
-        customer_data.append(customer_combined)
+        patient_data.append(both_signals)
         labels.append(label)
-    return np.array(customer_data), np.array(labels)
+    return np.array(patient_data), np.array(labels)
 
 
 scores = []
